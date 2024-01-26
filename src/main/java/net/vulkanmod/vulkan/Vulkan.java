@@ -343,7 +343,7 @@ public class Vulkan {
             try {
               allocatorCreateInfo.instance(instance);
             } catch (NoSuchMethodError e) {
-              LOGGER.info("NoSuchMethodError catched, maybe in the mobile environ, ignoring..."
+              LOGGER.info("NoSuchMethodError catched, maybe in the mobile environ, ignoring...");
             }
             allocatorCreateInfo.vulkanApiVersion(VK_API_VERSION_1_2);
 
