@@ -39,6 +39,9 @@ import static org.lwjgl.vulkan.KHRSwapchain.VK_KHR_SWAPCHAIN_EXTENSION_NAME;
 import static org.lwjgl.vulkan.VK10.*;
 import static org.lwjgl.vulkan.VK12.VK_API_VERSION_1_2;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Vulkan {
 
     public static final boolean ENABLE_VALIDATION_LAYERS = false;
@@ -48,6 +51,9 @@ public class Vulkan {
     public static final boolean DYNAMIC_RENDERING = false;
 
     public static final Set<String> VALIDATION_LAYERS;
+    
+    public static final Logger LOGGER = LoggerFactory.getLogger("VulkanMod");
+    
     static {
         if(ENABLE_VALIDATION_LAYERS) {
             VALIDATION_LAYERS = new HashSet<>();
@@ -334,7 +340,11 @@ public class Vulkan {
             allocatorCreateInfo.physicalDevice(DeviceManager.physicalDevice);
             allocatorCreateInfo.device(DeviceManager.device);
             allocatorCreateInfo.pVulkanFunctions(vulkanFunctions);
-            allocatorCreateInfo.instance(instance);
+            try {
+              allocatorCreateInfo.instance(instance);
+            } catch (NoSuchMethodError e) {
+              LOGGER.info("NoSuchMethodError catched, maybe in the mobile environ, ignoring..."
+            }
             allocatorCreateInfo.vulkanApiVersion(VK_API_VERSION_1_2);
 
             PointerBuffer pAllocator = stack.pointers(VK_NULL_HANDLE);
